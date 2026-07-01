@@ -2,11 +2,14 @@ import { test, expect } from "@playwright/test";
 import { ApiClient } from "../helpers/ApiClient";
 import { PetController } from "../../controllers/PetController";
 import { PetResponse } from "../../dataclasses/response/PetResponse";
+import {PetRequest} from "../../dataclasses/request/PetRequest";
 
 test("Verify available pets", async ({ request }) => {
 
     const apiClient = new ApiClient(request);
     const petController = new PetController(apiClient);
+    const petRequest = new PetRequest();
+    await petController.createPet(petRequest); // test data creation
     const response = await petController.getAvailablePets();
     expect(response.status()).toBe(200);
     const pets: PetResponse[] = await response.json();
